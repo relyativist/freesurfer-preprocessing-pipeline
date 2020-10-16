@@ -10,4 +10,4 @@ recon-all -all -i $input_file -subject_id freesurfer_${smri} -sd /tmp -all
 "
 unzip -o -d /tmp /code/avg_subject.zip
 
-python surface_transform.py -s freesurfer_$smri
+python generate_norm.py -s freesurfer_$smri
