@@ -33,11 +33,10 @@ if __name__ == "__main__":
         avgtosubj_path = os.path.join(output, subject, "surf", h + f".avg_to_{subject}.mgh")
         subjthickness_path = os.path.join(output, subject, "surf", h + ".thickness")
         normthickness_path = os.path.join(output, subject, "surf", h + ".norm" + ".thickness")
-        
 
         sxfm.inputs.subjects_dir = "/tmp"
         sxfm.inputs.source_subject = "avg_subject_91_expopts"
-        sxfm.inputs.source_file = "/tmp/avg_subject_91_expopts/surf/lh.thickness"
+        sxfm.inputs.source_file = f"/tmp/avg_subject_91_expopts/surf/{h}.thickness"
         sxfm.inputs.hemi = h
         sxfm.inputs.target_subject = f"{subject}"
         sxfm.inputs.out_file = avgtosubj_path
@@ -46,8 +45,7 @@ if __name__ == "__main__":
         print(sxfm.cmdline)
         print(f'run {subject}')
         sxfm.run()
-        print(f'run {subject}') 
-
-        norm_to_save=norm(subjthickness_path, avgtosubj_path)
-        nibabel.freesurfer.io.write_morph_data(normthickness_path, norm_to_save)
+        print(f'run {subject}')
+        threshold_norm=np.clip(norm(subjthickness_path, avgtosubj_path), 0, 3.0)
+        nibabel.freesurfer.io.write_morph_data(normthickness_path, threshold_norm)
         print("Normalized thickness generated: {}".format(os.path.join(normthickness_path)))

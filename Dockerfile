@@ -20,11 +20,6 @@ RUN pip install --upgrade pip && \
 	pip install -r /code/requirements.txt && \
 	pip uninstall -y tqdm
 
-ADD models.tar.bz2 /models/
-
-COPY utils.py.diff /patch/utils.py.diff
-RUN patch /usr/local/miniconda/lib/python3.6/site-packages/heudiconv/utils.py /patch/utils.py.diff
-
 ARG TIMEOUT=24h
 ENV timeout $TIMEOUT
 
@@ -32,4 +27,5 @@ ENTRYPOINT ["bash", "-c", "source /code/intro.sh; timeout $timeout /code/entrypo
 
 COPY freesurfer_license.txt /opt/freesurfer/license.txt
 COPY entrypoint.sh avg_subject.zip /code/
+COPY generate_norm.py /code/
 RUN chmod +x /code/entrypoint.sh
