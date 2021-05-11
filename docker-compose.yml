@@ -1,0 +1,10 @@
+version: '3'
+services:
+    sentry:
+        image: inotify/watcher
+
+
+    storage:
+        image: filebrowser/filebrowser
+        ports:
+            - "27018:27018"
